@@ -45,6 +45,30 @@ function Stories(){
         id:7,
         name: "Penelope Clearwaters",
         img: frens
+    },
+
+    {
+        id:8,
+        name: "Penelope Clearwaters",
+        img: frens
+    },
+
+    {
+        id:9,
+        name: "Penelope Clearwaters",
+        img: frens
+    },
+
+    {
+        id:10,
+        name: "Penelope Clearwaters",
+        img: frens
+    },
+
+    {
+        id:11,
+        name: "Penelope Clearwaters",
+        img: frens
     }];
     
     return(
