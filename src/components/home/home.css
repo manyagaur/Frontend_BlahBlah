@@ -1,0 +1,12 @@
+.theme{
+    background: navy;
+}
+
+.mainpage {
+    overflow-y: scroll; 
+    scrollbar-width: none; 
+  }
+  
+  .rightbar::-webkit-scrollbar {
+    display: none; 
+  }

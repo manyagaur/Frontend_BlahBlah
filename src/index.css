@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+    font-family: "Rubik";
+    src: local(Rubik-Black),
+         url(../src/assets/fonts/Rubik-Black.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "RubikBlack";
+    src: local(Rubik-BlackItalic),
+         url(../src/assets/fonts/Rubik-BlackItalic.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "RubikRegular";
+    src: local(Rubik-Regular),
+         url(../src/assets/fonts/Rubik-Regular.ttf) format("truetype");
+}
+
+@mixin mobile{
+    @media (max-width:480px) {
+        @content;
+    }
+}
