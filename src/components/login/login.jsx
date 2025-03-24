@@ -3,20 +3,36 @@ import img from "../../assets/8976.jpg";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
+
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
-  const user = { name: "lunalove", password: "1234" };
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+});
 
-  const handleLogin = () => {
-    if (email === user.name && password === user.password) {
-      setError(""); // Clear error
-      navigate("/home");
-    } else {
-      setError("Invalid email or password. Please try again.");
-    }
+  const handleLogin = async (e) => {
+    e.preventDefault();
+        try {
+            const response = await axios.post("http://localhost:8800/api/auth/login", formData);
+    
+            if (response.status === 200) {
+                alert("Account created successfully!");
+                window.location.href = "/login";
+            }
+        } catch (error){
+          if (error.response && error.response.status === 404) {
+            alert("No account found!");
+        } 
+        else if (error.response && error.response.status === 500) {
+          alert("Incorrect Password!");
+      }
+        
+        else {
+            alert("Login failed! Please try again.");
+        }
+        console.error("Error while login:", error);
+        }
   };
 
   return (
