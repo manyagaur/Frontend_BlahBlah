@@ -17,7 +17,12 @@ const [error, setError] = useState("");
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8800/api/auth/login", formData);
+      const response = await axios.post("http://localhost:8800/api/auth/login", 
+        formData,
+        {
+          withCredentials: true, // This allows cookies to be sent and received!
+        }
+      );
 
       if (response.status === 200) {
         alert("Login successful!");
