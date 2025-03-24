@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import img from "../../assets/8976.jpg";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
 
@@ -11,28 +12,27 @@ function Login() {
     password: ""
 });
 
+const [error, setError] = useState("");
+
   const handleLogin = async (e) => {
     e.preventDefault();
-        try {
-            const response = await axios.post("http://localhost:8800/api/auth/login", formData);
-    
-            if (response.status === 200) {
-                alert("Account created successfully!");
-                window.location.href = "/login";
-            }
-        } catch (error){
-          if (error.response && error.response.status === 404) {
-            alert("No account found!");
-        } 
-        else if (error.response && error.response.status === 500) {
-          alert("Incorrect Password!");
+    try {
+      const response = await axios.post("http://localhost:8800/api/auth/login", formData);
+
+      if (response.status === 200) {
+        alert("Login successful!");
+        navigate("/home");  
       }
-        
-        else {
-            alert("Login failed! Please try again.");
-        }
-        console.error("Error while login:", error);
-        }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setError("No account found!");
+      } else if (error.response && error.response.status === 500) {
+        setError("Incorrect password!");
+      } else {
+        setError("Login failed! Please try again.");
+      }
+      console.error("Error while login:", error);
+    }
   };
 
   return (
@@ -77,15 +77,15 @@ function Login() {
             <input
               className="rounded-md mx-4 mt-[70px] p-2 w-[250px] border border-gray-400"
               placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
             <input
               className="rounded-md mx-4 mt-[20px] p-2 w-[250px] border border-gray-400"
               placeholder="Enter your password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             />
             {error && (
               <p className="text-red-500 text-sm mx-4 mt-2">{error}</p>
