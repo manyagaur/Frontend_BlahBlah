@@ -32,10 +32,11 @@ function Home() {
                                 </img>
                                 <span className="text-gray-600">What's on your mind?</span>
                             </div>
-                            <input 
-                                className="h-[50px] w-full border p-2 mt-2 border-gray-300 rounded"
+                            <textarea
+                                className="h-auto w-full border p-2 mt-2 border-gray-300 rounded resize-none overflow-auto"
                                 placeholder="Type your thoughts here..."
-                            ></input>
+                                rows={4}  // Initial height of 3 rows, can be adjusted
+                            ></textarea>
                             <div className="flex mt-4 gap-2">
                                 <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                                     Add Image
