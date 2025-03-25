@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../navbar/navbar";
 import Leftbar from "../leftbar/leftbar";
@@ -7,8 +7,18 @@ import Posts from "../posts/posts";
 import Stories from "../Stories/Stories";
 import dp from '../../assets/dp.jpg'
 
+
 function Home() {
     const nav = useNavigate();
+
+    const [imagePreview, setImagePreview] = useState(null);
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0]; // Get the selected file
+        if (file) {
+            setImagePreview(URL.createObjectURL(file)); // Generate preview URL
+        }
+    };
 
     return (
         <>
@@ -24,32 +34,60 @@ function Home() {
                 <div className="mainpage col-span-12 md:col-span-7 h-screen bg-gray-200 overflow-scroll lg:p-4">
                     <Stories />
                     <div className="grid gap-6 p-6">
-                        <div className = "add bg-white shadow-lg rounded-lg p-6 gap-4">
+                        <div className="add bg-white shadow-lg rounded-lg p-6 gap-4">
                             <div className="flex">
-                                <img
-                                className="h-10 w-10 rounded-full" 
-                                src={dp}>
-                                </img>
+                                <img className="h-10 w-10 rounded-full" src={dp} alt="User" />
                                 <span className="text-gray-600">What's on your mind?</span>
                             </div>
-                            <textarea
-                                className="h-auto w-full border p-2 mt-2 border-gray-300 rounded resize-none overflow-auto"
-                                placeholder="Type your thoughts here..."
-                                rows={4}  // Initial height of 3 rows, can be adjusted
-                            ></textarea>
-                            <div className="flex mt-4 gap-2">
-                                <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                                    Add Image
-                                </button>
-                                <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                                    Add Place
-                                </button>
-                                <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                                    Add Location
-                                </button>
+
+                            <div className="mt-4">
+                                <textarea
+                                    className="h-auto w-full border p-2 mt-2 border-gray-300 rounded resize-none overflow-auto"
+                                    placeholder="Type your thoughts here..."
+                                    rows={4}
+                                ></textarea>
+
+                                {/* Flexbox container for Add Image and Submit Post */}
+                                <div className="flex justify-between items-center mt-4">
+                                    <div className="relative">
+                                    {imagePreview && (
+                                        <div className="mt-4">
+                                            <img
+                                                src={imagePreview}
+                                                alt="Preview"
+                                                className="w-full h-40 object-cover rounded-lg"
+                                            />
+                                            <button
+                                                onClick={() => setImagePreview(null)}
+                                                className="my-2  text-red-500 hover:text-red-700"
+                                            >
+                                                Remove Image
+                                            </button>
+                                        </div>
+                                    )}
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            className="hidden"
+                                            id="fileInput"
+                                            onChange={handleImageChange}
+                                        />
+                                        <label
+                                            htmlFor="fileInput"
+                                            className="cursor-pointer px-2 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                        >
+                                            Add Image
+                                        </label>
+                                    </div>
+
+                                    <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                                        Submit Post
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     <Posts />
                 </div>
 
