@@ -11,14 +11,37 @@ import dp from '../../assets/dp.jpg'
 function Home() {
     const nav = useNavigate();
 
+    const [caption, setCaption] = useState('');
+    const [image, setImage] = useState(null);
+
     const [imagePreview, setImagePreview] = useState(null);
 
     const handleImageChange = (e) => {
-        const file = e.target.files[0]; // Get the selected file
+        const file = e.target.files[0]; 
         if (file) {
+            setImage(file);
             setImagePreview(URL.createObjectURL(file)); // Generate preview URL
         }
     };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        const formData = new FormData();
+        formData.append('caption', caption);
+        formData.append('image', image);
+    
+        try {
+          const res = await axios.post('http://localhost:8800/api/posts', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+            withCredentials: true,  // Enable cookies
+          });
+    
+          alert('Post added successfully!');
+        } catch (err) {
+          console.error('Error uploading post:', err);
+        }
+      };
 
     return (
         <>
@@ -33,7 +56,7 @@ function Home() {
                 {/* Main Content */}
                 <div className="mainpage col-span-12 md:col-span-7 h-screen bg-gray-200 overflow-scroll lg:p-4">
                     <Stories />
-                    <div className="grid gap-6 p-6">
+                    <form onSubmit={handleSubmit} className="grid gap-6 p-6">
                         <div className="add bg-white shadow-lg rounded-lg p-6 gap-4">
                             <div className="flex">
                                 <img className="h-10 w-10 rounded-full" src={dp} alt="User" />
@@ -86,7 +109,7 @@ function Home() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
 
                     <Posts />
                 </div>
