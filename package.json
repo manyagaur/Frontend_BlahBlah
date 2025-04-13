@@ -18,6 +18,7 @@
     "axios": "^1.7.8",
     "blah-blah-front-v2": "file:",
     "caniuse-lite": "^1.0.30001690",
+    "js-cookie": "^3.0.5",
     "mysql": "^2.18.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

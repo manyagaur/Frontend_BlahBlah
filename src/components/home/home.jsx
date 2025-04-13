@@ -6,7 +6,8 @@ import Rightbar from "../rightbar/rightbar";
 import Posts from "../posts/posts";
 import Stories from "../Stories/Stories";
 import dp from '../../assets/dp.jpg'
-
+import axios from "axios";
+import Cookies from 'js-cookie';
 
 function Home() {
     const nav = useNavigate();
@@ -26,23 +27,27 @@ function Home() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+        
+
         const formData = new FormData();
         formData.append('caption', caption);
         formData.append('image', image);
-    
+      
         try {
-          const res = await axios.post('http://localhost:8800/api/posts', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' },
-            withCredentials: true,  // Enable cookies
+          const res = await axios.post('http://localhost:8800/api/posts/add', formData, {
+            headers: { 'Content-Type': 'multipart/form-data', },
+                withCredentials: true,
           });
-    
+      
           alert('Post added successfully!');
+          setCaption('');
+          setImage(null);
+          setImagePreview(null);
         } catch (err) {
           console.error('Error uploading post:', err);
         }
       };
-
+      
     return (
         <>
             <Navbar />
@@ -68,6 +73,8 @@ function Home() {
                                     className="h-auto w-full border p-2 mt-2 border-gray-300 rounded resize-none overflow-auto"
                                     placeholder="Type your thoughts here..."
                                     rows={4}
+                                    value={caption}
+                                    onChange={(e) => setCaption(e.target.value)}
                                 ></textarea>
 
                                 {/* Flexbox container for Add Image and Submit Post */}
@@ -81,9 +88,12 @@ function Home() {
                                                 className="w-full h-40 object-cover rounded-lg"
                                             />
                                             <button
-                                                onClick={() => setImagePreview(null)}
-                                                className="my-2  text-red-500 hover:text-red-700"
-                                            >
+                                                onClick={() => {
+                                                    setImage(null);
+                                                    setImagePreview(null);
+                                                }}
+                                                className="my-2 text-red-500 hover:text-red-700"
+                                                >
                                                 Remove Image
                                             </button>
                                         </div>
